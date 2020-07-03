@@ -2,7 +2,8 @@
 # Language: R
 # Input: TXT (parameters)
 # Output: CSV (expression levels for each sample/timepoint)
-# Tested with: PluMA 1.0, R 3.2.5
+# Tested with: PluMA 1.1, R 4.0.0
+# Dependency: ggvis_0.4.5
 
 PluMA plugin that takes a clinical and training data set, a set of timepoints,
 and average gene expression levels of a selected set of genes.  It produces
