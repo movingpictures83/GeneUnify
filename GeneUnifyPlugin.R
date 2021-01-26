@@ -17,8 +17,11 @@ print("MAKING FRAME")
 rma <- as.data.frame(t(rma))
 print("DONE")
 
+joinby <<- toString(parameters["joinby", 2])
+target <<- toString(parameters["target", 2])
+
 colnames(rma)[2:ncol(rma)]<- as.matrix(rma[1,2:ncol(rma)])
-colnames(rma)[1] <- "CEL"
+colnames(rma)[1] <- joinby
 
 print("READING TIME TABLE 1")
 g1 = read.table(parameters["files", 2], sep = ' ', header = TRUE)
@@ -35,17 +38,18 @@ g6 = read.table(parameters["files", 7], sep = ' ', header = TRUE)
 print("READING TIME TABLE 7")
 g7 = read.table(parameters["files", 8], sep = ' ', header = TRUE)
 print("GENES")
-sel_genes <<- as.data.frame(rma[, colnames(rma) %in% Reduce(union, c("CEL",row.names(g1), row.names(g2), row.names(g3), row.names(g4), row.names(g5), row.names(g6), row.names(g7)))])
+sel_genes <<- as.data.frame(rma[, colnames(rma) %in% Reduce(union, c(joinby,row.names(g1), row.names(g2), row.names(g3), row.names(g4), row.names(g5), row.names(g6), row.names(g7)))])
 }
 
 run <- function() {
-print("CEL")
-fin<<-merge(t1, sel_genes, by = "CEL")
+print(joinby)
+fin<<-merge(t1, sel_genes, by = joinby)
 }
 #Creating X and Y
 
 output <- function(outputfile) {
-Y = fin$SHEDDING_SC1
+#Y = fin$SHEDDING_SC1
+Y = fin[target]
 X = fin[13 : ncol(fin)]
 write.csv(X, outputfile)
 
